@@ -6,7 +6,7 @@ const raidDetector = require("./systems/raidDetector");
 const messageFilter = require('./systems/messageFilter');
 const afkSystem = require('./systems/afkSystem'); // Import AFK system
 const getConfig = require("../utils/getConfig");
-const avatarCommand = require('./commands/avatar');
+const avatarCommand = require('../src/commands/avatar');
 
 const client = new Client({
     intents: [
