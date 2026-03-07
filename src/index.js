@@ -4,109 +4,106 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const spamDetector = require('./systems/spamDetector');
 const raidDetector = require("./systems/raidDetector");
 const messageFilter = require('./systems/messageFilter');
-const afkSystem = require('./systems/afkSystem'); // Import AFK system
-const getConfig = require("../utils/getConfig");
-const avatarCommand = require('../src/commands/avatar');
+const afkSystem = require('./systems/afkSystem');
 
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.MessageContent // For reading mentions
+        GatewayIntentBits.GuildMembers
     ]
 });
 
-client.on('clientReady', () => {
+client.once('ready', () => {
     console.log(`✅ ${client.user.tag} is online!`);
     console.log(`📊 Current AFK users: ${afkSystem.getAFKCount()}`);
-    
-    // ⚠️ REMOVED: auto-cleanup interval - AFK status never expires
 });
+
 
 // 🚨 RAID DETECTION
 client.on("guildMemberAdd", (member) => {
     raidDetector(member);
 });
 
-// 💬 MESSAGE SYSTEMS
-// ... (rest of your imports and code)
 
-// 💬 MESSAGE SYSTEMS
+// 💬 MESSAGE SYSTEM
 client.on('messageCreate', async (message) => {
+
     if (message.author.bot) return;
 
-    // Check if the message is a command
-    if (message.content.startsWith('.')) {
-        const args = message.content.slice(1).trim().split(/ +/);
+    const prefix = ".";
+
+    // COMMAND SYSTEM
+    if (message.content.startsWith(prefix)) {
+
+        const args = message.content.slice(prefix.length).trim().split(/ +/);
         const command = args.shift().toLowerCase();
-        
-        // Handle AFK command
-        if (command === 'afk') {
-            const afkCommand = require('./commands/afk');
+
+        // AFK COMMAND
+        if (command === "afk") {
+            const afkCommand = require("./commands/afk");
             await afkCommand.execute(message, args);
+            return;
+        }
+
+        // AVATAR COMMAND
+        if (command === "av" || command === "avatar") {
+            const avatarCommand = require("./commands/avatar");
+            await avatarCommand.execute(message, args);
             return;
         }
     }
 
-    // 🔍 AFK System - Check mentions
+
+    // 🔍 AFK MENTION CHECK
     if (message.guild && message.mentions.users.size > 0) {
+
         for (const [mentionedId, mentionedUser] of message.mentions.users) {
+
             if (afkSystem.isAFK(mentionedId, message.guild.id)) {
+
                 const afkData = afkSystem.getAFKData(mentionedId, message.guild.id);
                 afkSystem.addPing(mentionedId, message.guild.id, message.author.id);
-                
-                // Calculate time away
+
                 const timeAway = Date.now() - afkData.timestamp;
                 const timeDisplay = formatTime(timeAway);
-                
+
                 await message.reply({
                     content: `💫 **${mentionedUser.username}** is AFK · ${timeDisplay}\n📝 *${afkData.message}*`,
                     allowedMentions: { repliedUser: false }
                 });
+
             }
         }
     }
 
-    // 🔍 AFK System - Check if message author is returning from AFK
+
+    // 🔍 AFK RETURN CHECK
     if (message.guild && afkSystem.isAFK(message.author.id, message.guild.id)) {
+
         const afkData = afkSystem.removeAFK(message.author.id, message.guild.id);
-        
-        // Restore original nickname
-        try {
-            if (message.member.manageable && afkData.originalNickname) {
-                await message.member.setNickname(afkData.originalNickname);
-            }
-        } catch (error) {
-            console.log(`Could not restore nickname for ${message.author.tag}`);
-        }
-        
-        // Calculate total time away
+
         const timeAway = Date.now() - afkData.timestamp;
         const timeDisplay = formatTime(timeAway);
-        
-        // Create ping summary
-        const pingedBy = Array.from(afkData.pingedBy);
-        let pingSummary = '';
-        
-        if (pingedBy.length > 0) {
-            const pingedUsers = pingedBy.map(id => `<@${id}>`).join(' · ');
-            pingSummary = `\n👋 ${pingedBy.length} mention${pingedBy.length > 1 ? 's' : ''} from: ${pingedUsers}`;
-        }
-        
+
         await message.reply({
-            content: `👋 Welcome back, you were away for ${timeDisplay}${pingSummary}`,
+            content: `👋 Welcome back, you were away for ${timeDisplay}`,
             allowedMentions: { repliedUser: false }
         });
+
     }
+
 
     await spamDetector(message);
     await messageFilter(message);
+
 });
 
-// Helper function to format time
+
+// ⏱ TIME FORMAT
 function formatTime(ms) {
+
     const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
@@ -116,16 +113,20 @@ function formatTime(ms) {
     if (hours > 0) return `${hours}h ${minutes % 60}m`;
     if (minutes > 0) return `${minutes}m`;
     return `${seconds}s`;
+
 }
 
-// ... (rest of your code)
 
-// Optional: Handle guild member remove to clean up AFK status when they leave
+// CLEAN AFK IF USER LEAVES
 client.on('guildMemberRemove', (member) => {
+
     const removed = afkSystem.forceRemoveAFK(member.id, member.guild.id);
+
     if (removed) {
-        console.log(`🧹 Cleaned up AFK status for ${member.user.tag} (left server)`);
+        console.log(`🧹 Cleaned AFK for ${member.user.tag}`);
     }
+
 });
+
 
 client.login(process.env.TOKEN);

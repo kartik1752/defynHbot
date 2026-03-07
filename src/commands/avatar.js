@@ -1,24 +1,25 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-  name: "av",
 
-  async execute(message) {
+    name: "av",
 
-    const user =
-      message.mentions.users.first() || message.author;
+    async execute(message) {
 
-    const avatarURL = user.displayAvatarURL({
-      dynamic: true,
-      size: 1024
-    });
+        const user = message.mentions.users.first() || message.author;
 
-    const embed = new EmbedBuilder()
-      .setColor("#00E5FF")
-      .setTitle(`${user.username}'s Avatar`)
-      .setImage(avatarURL);
+        const avatarURL = user.displayAvatarURL({
+            dynamic: true,
+            size: 1024
+        });
 
-    message.reply({ embeds: [embed] });
+        const embed = new EmbedBuilder()
+            .setColor("#00E5FF")
+            .setTitle(`${user.username}'s Avatar`)
+            .setImage(avatarURL);
 
-  }
+        message.reply({ embeds: [embed] });
+
+    }
+
 };
