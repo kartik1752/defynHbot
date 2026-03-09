@@ -53,6 +53,12 @@ client.on('messageCreate', async (message) => {
             await avatarCommand.execute(message, args);
             return;
         }
+        // WEATHER COMMAND
+if (command === "weather" || command === "w") {
+    const weatherCommand = require("./commands/weather");
+    await weatherCommand.execute(message, args);
+    return;
+}
     }
 
 
