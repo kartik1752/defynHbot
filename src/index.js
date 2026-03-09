@@ -53,18 +53,29 @@ client.on('messageCreate', async (message) => {
             await avatarCommand.execute(message, args);
             return;
         }
+
         // WEATHER COMMAND
-if (command === "weather" || command === "w") {
-    const weatherCommand = require("./commands/weather");
-    await weatherCommand.execute(message, args);
-    return;
-}
-// TIC TAC TOE
-if (command === "ttt") {
-    const tttCommand = require("./commands/ttt");
-    await tttCommand.execute(message, args);
-    return;
-}
+        if (command === "weather" || command === "w") {
+            const weatherCommand = require("./commands/weather");
+            await weatherCommand.execute(message, args);
+            return;
+        }
+
+        // TIC TAC TOE
+        if (command === "ttt") {
+            const tttCommand = require("./commands/ttt");
+            await tttCommand.execute(message, args);
+            return;
+        }
+
+        // 🎮 ACTION COMMANDS (punch, kick, hug, kiss, nutkick)
+        const actionCommands = ["punch", "kick", "hug", "kiss", "nutkick"];
+
+        if (actionCommands.includes(command)) {
+            const actionCommand = require("./commands/action");
+            await actionCommand.execute(message, args, command);
+            return;
+        }
     }
 
 
