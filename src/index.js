@@ -59,6 +59,12 @@ if (command === "weather" || command === "w") {
     await weatherCommand.execute(message, args);
     return;
 }
+// TIC TAC TOE
+if (command === "ttt") {
+    const tttCommand = require("./commands/ttt");
+    await tttCommand.execute(message, args);
+    return;
+}
     }
 
 
