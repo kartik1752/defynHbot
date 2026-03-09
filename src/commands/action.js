@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { EmbedBuilder } = require("discord.js");
 
 const dataPath = path.join(__dirname, "../data/actions.json");
 
@@ -10,21 +11,32 @@ function getOrdinal(n) {
 }
 
 const gifs = {
+
     punch: [
-        "https://media.tenor.com/3V9J8YzS7W8AAAAC/anime-punch.gif"
+        
+        "https://cdn.weeb.sh/images/SkKL3adPb.gif"
     ],
+
     kick: [
-        "https://media.tenor.com/Ws6DmK_8C1IAAAAC/anime-kick.gif"
+        
+        "https://cdn.weeb.sh/images/rkXzjTXv-.gif"
     ],
+
     hug: [
-        "https://media.tenor.com/qj5evVs-_uUAAAAC/anime-hug.gif"
+        
+        "https://cdn.weeb.sh/images/SJg2eTXvZ.gif"
     ],
+
     kiss: [
-        "https://media.tenor.com/b7Z9V6H9bTQAAAAC/anime-kiss.gif"
+        
+        "https://cdn.weeb.sh/images/SJ3e1amDZ.gif"
     ],
+
     nutkick: [
-        "https://media.tenor.com/QE8tTnT2R3sAAAAC/anime-funny-kick.gif"
+        
+        "https://cdn.weeb.sh/images/Hy9XjTXv-.gif"
     ]
+
 };
 
 module.exports = {
@@ -56,14 +68,17 @@ module.exports = {
 
         const count = data[key];
 
-        const gifList = gifs[command];
+        const gifList = gifs[command] || [];
         const gif = gifList[Math.floor(Math.random() * gifList.length)];
+
+        const embed = new EmbedBuilder()
+            .setColor("#ff4d6d")
+            .setImage(gif)
+            .setFooter({ text: `${command.toUpperCase()} ACTION` });
 
         message.reply({
             content: `🔥 ${message.author} **${command}ed** ${target} for the **${getOrdinal(count)}** time!`,
-            embeds: [{
-                image: { url: gif }
-            }]
+            embeds: [embed]
         });
 
     }
