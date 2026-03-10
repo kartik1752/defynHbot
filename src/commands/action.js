@@ -14,27 +14,31 @@ const gifs = {
 
     punch: [
         
-        "https://cdn.weeb.sh/images/SkKL3adPb.gif"
+        "https://i.pinimg.com/originals/2b/5d/7b/2b5d7bb1dd4a8e64869c33499c409582.gif",
+        "https://i.pinimg.com/originals/8d/50/60/8d50607e59db86b5afcc21304194ba57.gif"
     ],
 
     kick: [
         
-        "https://cdn.weeb.sh/images/rkXzjTXv-.gif"
+        "https://i.pinimg.com/originals/08/d5/91/08d59115f268d78f5375f7b13fe1cece.gif"
     ],
 
     hug: [
         
-        "https://cdn.weeb.sh/images/SJg2eTXvZ.gif"
+        "https://i.pinimg.com/originals/16/f4/ef/16f4ef8659534c88264670265e2a1626.gif",
+        "https://i.pinimg.com/originals/ef/a9/1c/efa91c10e9ccd9acf601c693e46b00b0.gif"
     ],
 
     kiss: [
         
-        "https://cdn.weeb.sh/images/SJ3e1amDZ.gif"
+        "https://i.pinimg.com/originals/f0/3f/24/f03f245e14fdfcacaf06318cdc667a03.gif",
+        "https://i.pinimg.com/originals/9c/be/bf/9cbebfb852e76c2b8d9c3b72ae08e68f.gif",
+        "https://i.pinimg.com/originals/2e/e7/50/2ee750e5a53cd60c65604f591ff6e99f.gif"
     ],
 
     nutkick: [
         
-        "https://cdn.weeb.sh/images/Hy9XjTXv-.gif"
+        "https://media1.tenor.com/m/lFi5E29EKQgAAAAC/nut-kick-anime.gif"
     ]
 
 };
