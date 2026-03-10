@@ -38,7 +38,9 @@ const gifs = {
 
     nutkick: [
         
-        "https://media1.tenor.com/m/lFi5E29EKQgAAAAC/nut-kick-anime.gif"
+        "https://r2.greed.best/nutkick/nutkick3.gif",
+        "https://r2.greed.best/nutkick/nutkick2.gif",
+        "https://r2.greed.best/nutkick/nutkick7.gif"
     ]
 
 };
