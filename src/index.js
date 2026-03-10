@@ -6,6 +6,8 @@ const raidDetector = require("./systems/raidDetector");
 const messageFilter = require('./systems/messageFilter');
 const afkSystem = require('./systems/afkSystem');
 const welcomeSystem = require("./systems/welcomeSystem");
+const banSystem = require("./commands/ban");
+const warnSystem = require("./commands/warn");
 
 const client = new Client({
     intents: [
@@ -77,6 +79,20 @@ if (command === "mute") {
 if (command === "unmute") {
     const muteCommand = require("./commands/mute");
     await muteCommand.unmute(message, args);
+    return;
+}
+if (command === "ban") {
+  await banSystem.ban(message, args);
+  return;
+}
+
+if (command === "warn") {
+  await warnSystem.warn(message, args);
+  return;
+}
+if (command === "userinfo" || command === "ui") {
+    const userinfoCommand = require("./commands/userInfo");
+    await userinfoCommand.execute(message, args);
     return;
 }
 
