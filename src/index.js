@@ -5,6 +5,7 @@ const spamDetector = require('./systems/spamDetector');
 const raidDetector = require("./systems/raidDetector");
 const messageFilter = require('./systems/messageFilter');
 const afkSystem = require('./systems/afkSystem');
+const welcomeSystem = require("./systems/welcomeSystem");
 
 const client = new Client({
     intents: [
@@ -22,8 +23,13 @@ client.once('ready', () => {
 
 
 // 🚨 RAID DETECTION
+
+
 client.on("guildMemberAdd", (member) => {
+
     raidDetector(member);
+    welcomeSystem(member);
+
 });
 
 
