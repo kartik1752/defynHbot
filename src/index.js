@@ -66,6 +66,19 @@ client.on('messageCreate', async (message) => {
             await weatherCommand.execute(message, args);
             return;
         }
+        // MUTE COMMAND
+if (command === "mute") {
+    const muteCommand = require("./commands/mute");
+    await muteCommand.mute(message, args);
+    return;
+}
+
+// UNMUTE COMMAND
+if (command === "unmute") {
+    const muteCommand = require("./commands/mute");
+    await muteCommand.unmute(message, args);
+    return;
+}
 
         // TIC TAC TOE
         if (command === "ttt") {
