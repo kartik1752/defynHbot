@@ -9,6 +9,7 @@ const welcomeSystem = require("./systems/welcomeSystem");
 const banSystem = require("./commands/ban");
 const warnSystem = require("./commands/warn");
 const activityTracker = require("./systems/activityTracker");
+const fetch = require("node-fetch");
 
 const client = new Client({
     intents: [
@@ -40,6 +41,8 @@ client.on("guildMemberAdd", (member) => {
 client.on('messageCreate', async (message) => {
 
     if (message.author.bot) return;
+
+     await activityTracker(message); // ⭐ ADD THIS LINE
 
     const prefix = ".";
 
