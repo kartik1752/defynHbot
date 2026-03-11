@@ -8,6 +8,7 @@ const afkSystem = require('./systems/afkSystem');
 const welcomeSystem = require("./systems/welcomeSystem");
 const banSystem = require("./commands/ban");
 const warnSystem = require("./commands/warn");
+const activityTracker = require("./systems/activityTracker");
 
 const client = new Client({
     intents: [

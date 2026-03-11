@@ -5,6 +5,8 @@ module.exports = {
 
     if (message.author.bot) return;
 
+    await activityTracker(message); // ADD THIS
+
     const prefix = ".";
 
     if (!message.content.startsWith(prefix)) return;
