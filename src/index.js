@@ -9,6 +9,7 @@ const welcomeSystem = require("./systems/welcomeSystem");
 const banSystem = require("./commands/ban");
 const warnSystem = require("./commands/warn");
 const activityTracker = require("./systems/activityTracker");
+const growthTracker = require("./systems/growthTracker");
 const fetch = require("node-fetch");
 
 const client = new Client({
@@ -33,6 +34,8 @@ client.on("guildMemberAdd", (member) => {
 
     raidDetector(member);
     welcomeSystem(member);
+
+    growthTracker(member); // NEW
 
 });
 
