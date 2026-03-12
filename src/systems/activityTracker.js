@@ -6,14 +6,26 @@ module.exports = async (message) => {
 
   try {
 
-    await axios.post("https://defyn-backend.onrender.com/activity", {
-      guildId: message.guild.id,
-      channelId: message.channel.id,
-      userId: message.author.id
-    });
+    const res = await axios.post(
+      "https://defyn-backend.onrender.com/activity",
+      {
+        guildId: message.guild.id,
+        channelId: message.channel.id,
+        userId: message.author.id
+      }
+    );
+
+    console.log("Activity saved:", res.data);
 
   } catch (err) {
-    console.log("Activity tracking failed:", err.response?.data || err.message);
+
+    console.log("Activity tracking failed");
+    console.log("Error message:", err.message);
+
+    if (err.response) {
+      console.log("Response data:", err.response.data);
+      console.log("Status:", err.response.status);
+    }
 
   }
 

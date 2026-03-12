@@ -21,7 +21,7 @@ const client = new Client({
     ]
 });
 
-client.once('ready', () => {
+client.once('clientReady', () => {
     console.log(`✅ ${client.user.tag} is online!`);
     console.log(`📊 Current AFK users: ${afkSystem.getAFKCount()}`);
 });
