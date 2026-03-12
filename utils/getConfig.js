@@ -13,7 +13,7 @@ const getConfig = async (guildId) => {
     }
 
     const res = await axios.get(
-      `https://defyn-backend.onrender.com/config/${guildId}`
+      `https://defyn-backend.onrender.com/bot/config/${guildId}`
     );
 
     const data = res.data;
