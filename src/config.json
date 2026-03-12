@@ -4,8 +4,8 @@
     "warnings": 5,
     "timeoutDuration": 360000,
     "categories": {
-      "sexual": ["porn", "xxx", "nude", "sex"],
-      "abusive": ["fuck", "bitch", "asshole", "mc", "bc", "mf"]
+      "sexual": [],
+      "abusive": []
     }
   }
 }

@@ -2,8 +2,11 @@ const { addWarning } = require("./punishment");
 
 const userMessages = new Map();
 
-module.exports = async (message) => {
-    if (message.author.bot) return;
+function clearUserCache(userId) {
+    userMessages.delete(userId);
+}
+
+async function spamDetector(message) {
 
     const userId = message.author.id;
 
@@ -16,27 +19,40 @@ module.exports = async (message) => {
 
     timestamps.push(now);
 
-    // ⏱️ Last 4 seconds
-    const filtered = timestamps.filter(time => now - time < 4000);
+    // last 6 seconds
+    const filtered = timestamps.filter(time => now - time < 6000);
+
     userMessages.set(userId, filtered);
 
-    // 🚨 4 messages in 4 sec
-    if (filtered.length >= 4) {
+    if (filtered.length >= 7) {
+
         const warnings = addWarning(message.member);
 
-        // ✅ Only 2 warnings
         if (warnings <= 2) {
+
             message.channel.send(
                 `⚠️ **${message.author}** ・Warning \`${warnings}/2\` for spam`
             );
+
         } else {
-            await message.member.timeout(5 * 60 * 1000, "Spam detected");
+
+            await message.member.timeout(
+                5 * 60 * 1000,
+                "Spam detected"
+            );
 
             message.channel.send(
                 `🚫 **${message.author}** ・Timed out for 5 minutes (spam)`
             );
+
         }
 
         userMessages.delete(userId);
     }
+
+}
+
+module.exports = {
+    spamDetector,
+    clearUserCache
 };

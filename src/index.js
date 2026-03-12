@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 
-const spamDetector = require('./systems/spamDetector');
+const { spamDetector, clearUserCache } = require("./systems/spamDetector");
 const raidDetector = require("./systems/raidDetector");
 const messageFilter = require('./systems/messageFilter');
 const afkSystem = require('./systems/afkSystem');
@@ -10,6 +10,7 @@ const banSystem = require("./commands/ban");
 const warnSystem = require("./commands/warn");
 const activityTracker = require("./systems/activityTracker");
 const growthTracker = require("./systems/growthTracker");
+const getConfig = require("../utils/getConfig");
 const fetch = require("node-fetch");
 
 const client = new Client({
@@ -160,8 +161,25 @@ if (command === "userinfo" || command === "ui") {
     }
 
 
-    await spamDetector(message);
-    await messageFilter(message);
+    const config = await getConfig(message.guild.id);
+
+// Anti Spam
+if (config.antiSpam) {
+
+  await spamDetector(message);
+
+} else {
+
+  clearUserCache(message.author.id);
+
+}
+
+// AI moderation
+if (config.aiMod) {
+
+  await messageFilter(message);
+
+}
 
 });
 
