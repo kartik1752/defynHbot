@@ -12,7 +12,8 @@ module.exports = async (message) => {
         guildId: message.guild.id,
         channelId: message.channel.id,
         userId: message.author.id
-      }
+      },
+      { timeout: 5000 }
     );
 
     console.log("Activity saved:", res.data);
