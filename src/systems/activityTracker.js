@@ -13,7 +13,8 @@ module.exports = async (message) => {
     });
 
   } catch (err) {
-    console.log("Activity tracking failed");
+    console.log("Activity tracking failed:", err.response?.data || err.message);
+
   }
 
 };
